@@ -1,7 +1,16 @@
 import std.stdio: writeln;
 import dyaml;
 
-void main() {
+void main(string[] args) {
+    string oapi_file = args[0];
+
+    
+
+    
+}
+
+
+void mainx() {
     string oapi_file = "openapi.yaml";
 
     Node root = Loader.fromFile(oapi_file).load();
@@ -12,11 +21,14 @@ void main() {
 
     foreach (component; root["components"]["schemas"].mapping) {
         writeln("class ", component.value["type"].get!string, " ", component.key.get!string);
-        if (!component.value.contains("properties")) {
+        auto schema = component.value;
+        if (!schema.containsKey("properties")) {
+            writeln("!!! not found properties");
             continue;
         }
+
         foreach (property; component.value["properties"].mapping) {
-            if (!property.value.contains("type")) {
+            if (!property.value.containsKey("type")) {
                 writeln(">>> property without type");
                 continue;
             }
@@ -34,8 +46,11 @@ void main() {
                 if (x.containsKey("type") && x["type"].get!string == "object") {
 
                 } else {
-                    foreach (Node k, Node v; x) {
-                        writeln (v.get!string, "[] ", property.key.get!string);
+                    if (x.type == NodeType.mapping) {
+                        foreach (item; x.mapping) {
+                            writeln(";;;;;;;;;;;;;;; ", typeof(item).stringof);
+                            writeln("key type is ", item.key.get!string, " >>> key value type is ", item.value.type, " >> value is ", item.value.get!string);
+                        }
                     }
                 }
             } else if (property.value["type"].get!string == "object") {
