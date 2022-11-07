@@ -1,13 +1,30 @@
-import std.stdio: writeln;
+import std.stdio: writeln, stderr;
 import dyaml;
 
 void main(string[] args) {
-    string oapi_file = args[0];
-
+    import oapi;
     
+    if (args.length <= 1 ) {
+        fatal_error("OpenAPI file name is required, giving up ... ");
+    }
 
-    
+    string oapi_file = args[1];
+    if (!file_is_valid(oapi_file)) {
+        fatal_error("There is a problem with the file ", oapi_file);
+    }
+
+    Node root;
+
+    try {
+        root = Loader.fromFile(oapi_file).load();
+    } catch(YAMLException e) {
+        fatal_error(e.message);
+    }
+
+    // this writes an error message and exits in case it does not look like the Linode openapi.yaml
+    looks_like_oapi_file(root);
 }
+
 
 
 void mainx() {
