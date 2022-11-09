@@ -1,6 +1,6 @@
 module oapi.model;
 
-enum BillingSource {
+enum BillingSource : string {
     akamai = "akamai",
     linode = "linode"
 }
@@ -12,8 +12,33 @@ struct CreditCard {
     int cvv; 
 }
 
+
+enum ServiceType : string {
+    all  = "all",
+    backup  = "backup",
+    blockstorage  = "blockstorage",
+    db_mysql  = "db_mysql",
+    ip_v4  = "ip_v4",
+    linode  = "linode",
+    linode_disk  = "linode_disk",
+    linode_memory  = "linode_memory",
+    longview  = "longview",
+    managed  = "managed",
+    nodebalancer  = "nodebalancer",
+    objectstorage  = "objectstorage",
+    transfer_tx  = "transfer_tx"
+}
+
 struct Promotion {
-    
+    string credit_monthly_cap;
+    string credit_remaining;
+    string description;
+    string expire_dt;
+    string image_url;
+    string summary;
+    string this_month_credit_remaining;
+    ServiceType service_type;
+
 }
 
 struct Account {

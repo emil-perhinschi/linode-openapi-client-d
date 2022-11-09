@@ -1,3 +1,6 @@
+#!/usr/bin/env dub
+/+ dub.json: { "dependencies": { "zug-tap": "*", "linode-openapi-client-d": { "path": "../" }  } } +/
+
 import std.stdio: writeln, stderr;
 import dyaml;
 
@@ -5,9 +8,6 @@ void main(string[] args) {
     import oapi;
     import oapi.model;
     import std.conv: to;
-
-    warning("this", "is", "a", "warning");
-    warning(1, 2, 3, 4);
 
     if (args.length <= 1 ) {
         fatal_error("OpenAPI file name is required, giving up ... ");
@@ -32,26 +32,12 @@ void main(string[] args) {
     OpenAPI api = get_openapi_info(root);
 
     api = add_tags(api, root);
-
-    if (root.containsKey("servers")) {
-        foreach (Node server_node; root["servers"]) {
-            if (!server_node.containsKey("url") || server_node["url"].type != NodeType.string) {
-                fatal_error("'url' not found in 'servers' or the value is not a string, something is very wrong with the openapi spec file!");
-            }
-
-            Server server;
-            server.url = server_node["url"].get!string;
-            api.servers ~= server;
-        }
-    }
-
-
-    writeln(api.servers);
+    api = add_servers(api, root);
 }
 
 
 
-void mainx() {
+void guessing_how_to_use_dyaml() {
     string oapi_file = "openapi.yaml";
 
     Node root = Loader.fromFile(oapi_file).load();

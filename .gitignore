@@ -7,4 +7,6 @@ oapi_code_generator
 *.o
 *.obj
 *.lst
+*.a
+t/*.a
 untitled.txt

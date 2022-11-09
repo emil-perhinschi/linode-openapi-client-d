@@ -26,6 +26,20 @@ OpenAPI get_openapi_info(Node root) {
     return api;
 }
 
+OpenAPI add_servers(OpenAPI api, Node root) {
+    if (root.containsKey("servers")) {
+        foreach (Node server_node; root["servers"]) {
+            if (!server_node.containsKey("url") || server_node["url"].type != NodeType.string) {
+                fatal_error("'url' not found in 'servers' or the value is not a string, something is very wrong with the openapi spec file!");
+            }
+            Server server;
+            server.url = server_node["url"].get!string;
+            api.servers ~= server;
+        }
+    }
+    return api;
+}
+
 OpenAPI add_tags(OpenAPI api, Node root) {
     if (root.containsKey("tags")) {
         foreach (Node tag_node; root["tags"]) {
