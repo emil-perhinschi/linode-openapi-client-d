@@ -8,5 +8,5 @@
 	},
 	"description": "generate D code from openapi yaml",
 	"license": "proprietary",
-	"name": "openapi_yaml_reader"
+	"name": "linode-openapi-client-d"
 }

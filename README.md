@@ -1,7 +1,6 @@
 # README #
 
-
-help write OpenAPI clients by generating the classes for the schemas 
+OpenAPI client library for D
 
 Version: very early, not worth a number
 
