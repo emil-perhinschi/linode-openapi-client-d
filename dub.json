@@ -8,5 +8,5 @@
 	},
 	"description": "generate D code from openapi yaml",
 	"license": "proprietary",
-	"name": "oapi_code_generator"
+	"name": "openapi_yaml_reader"
 }
