@@ -1,18 +1,22 @@
+module oapi.model;
+
 enum BillingSource {
     akamai = "akamai",
     linode = "linode"
 }
 
-class CreditCard {
+struct CreditCard {
     string card_number; // min: 14 char, max 24 char
     int expiry_month;
     int expiry_year;
     int cvv; 
 }
 
-struct Promotion {}
+struct Promotion {
+    
+}
 
-class Account {
+struct Account {
     Promotion[] promotions;
     string active_since;
     string address_1;
@@ -34,4 +38,34 @@ class Account {
     string tax_id;
     string euuid;
     string zip;
+}
+
+struct OpenAPI {
+    string openapi_version;
+    Info info;
+    Tag[string] tags;
+    Server[] servers;
+}
+
+struct Server {
+    string url;
+}
+
+struct Info {
+    string api_version;
+    string title;
+    string description;
+    Contact contact;
+}
+
+struct Contact {
+    string name;
+    string url;
+    string email;
+}
+
+struct Tag {
+    string name;
+    string description;
+    string externalDocs;
 }

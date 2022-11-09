@@ -1,6 +1,54 @@
 module oapi;
 import dyaml;
 
+import oapi.model;
+
+Contact get_contact(Node root) {
+    Contact contact;
+
+    return contact;
+}
+
+Info get_info(Node root) {
+    Contact contact = get_contact(root);
+    Info info;
+
+    return info;
+}
+
+OpenAPI get_openapi_info(Node root) {
+    OpenAPI api;
+    api.openapi_version = root["openapi"].get!string;
+    api.info.api_version = root["info"]["version"].get!string;
+    api.info.title = root["info"]["title"].get!string;
+    api.info.description = root["info"]["description"].get!string;
+
+    return api;
+}
+
+OpenAPI add_tags(OpenAPI api, Node root) {
+    if (root.containsKey("tags")) {
+        foreach (Node tag_node; root["tags"]) {
+            Tag tag;
+            if (tag_node.containsKey("name")) {
+                tag.name = tag_node["name"].get!string;
+            }
+
+            if (tag_node.containsKey("description")) {
+                tag.description = tag_node["description"].get!string;
+            }
+
+            if (tag_node.containsKey("externalDocs")) {
+                tag.externalDocs = tag_node["externalDocs"].get!string;
+            }
+            if (tag.name in api.tags) {
+                warning("Tag ", tag.name, " already seen: duplicate.");
+            }
+            api.tags[tag.name] = tag;
+        }
+    }
+    return api;
+}
 bool file_is_valid(string file_name) {
     import std.stdio: writeln, stderr;
     import std.file: exists;
@@ -28,9 +76,16 @@ void looks_like_oapi_file(Node root) {
 
     foreach (string key; expected_keys_in_root) {
         if (!root.containsKey(key)) {
-            fatal_error("Key '", key, "' not found in file ", oapi_file, "; Please check it is a proper OpenAPI file!");
+            fatal_error("Key '", key, "' not found in file; Please check it is a proper OpenAPI file!");
         }
     }
+}
+
+void warning(T)(T[] message_parts...) {
+    import std.conv: to;
+    import std.stdio: writeln, stderr;
+    import std.array: join;
+    stderr.writeln("WARNING: ", message_parts.to!(string[]).join(" "));
 }
 
 void fatal_error(const(char)[] message) {
