@@ -9,5 +9,5 @@
 	"description": "generate D code from openapi yaml",
 	"license": "proprietary",
 	"name": "linode-openapi-client-d",
-    "targetType": "library"
+	"targetType": "library"
 }
