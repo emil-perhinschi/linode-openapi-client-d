@@ -22,7 +22,12 @@ void main(string[] args) {
 
     AccountEndpoint account_action = AccountEndpoint(linode_key);
     Account account = account_action.get();
-    writeln(account);
+
+    // How do make tests work for everybody ? ... 
+    // https://www.linode.com/community/questions/23484/is-there-a-stagingtesting-server-for-the-linode-api 
+    tap.ok(account.first_name != "");
+    tap.ok(account.last_name != "");
+    tap.ok(account.euuid != "");
     tap.done_testing();
 }
 

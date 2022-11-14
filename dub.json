@@ -7,7 +7,7 @@
 		"dyaml": "~>0.9.2"
 	},
 	"description": "generate D code from openapi yaml",
-	"license": "proprietary",
+	"license": "MIT",
 	"name": "linode-openapi-client-d",
 	"targetType": "library"
 }
